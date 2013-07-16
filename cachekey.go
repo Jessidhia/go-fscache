@@ -16,6 +16,10 @@ import (
 // On a list of CacheKeys, the last component is taken to represent a file
 // and all the other components represent the intermediary directories.
 // This means that it's not possible to have subkeys of an existing file key.
+//
+// NOTE: when running on Windows, directories that start with a '.' get the
+// '.' replaced by a '_'. This is because regular Windows tools can't deal
+// with directories starting with a dot.
 type CacheKey interface{}
 
 // All "bad characters" that can't go in Windows paths.
