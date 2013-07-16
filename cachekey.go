@@ -54,8 +54,10 @@ var invalidPath = []CacheKey{".invalid"}
 func (cd *CacheDir) GetInvalid(key ...CacheKey) (ts time.Time) {
 	invKey := append(invalidPath, key...)
 
-	stat, _ := cd.Stat(invKey...)
-	return stat.ModTime()
+	if stat, err := cd.Stat(invKey...); err == nil {
+		ts = stat.ModTime()
+	}
+	return
 }
 
 // Checks if the given key is not marked as invalid, or if it is,
