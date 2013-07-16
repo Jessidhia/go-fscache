@@ -52,7 +52,7 @@ func (cd *CacheDir) Get(v interface{}, key ...CacheKey) (mtime time.Time, err er
 	}
 	if !val.CanSet() {
 		// API caller error
-		panic("(*cacheDir).Get(): given Cacheable is not setable")
+		panic("(*CacheDir).Get(): given interface{} is not setable")
 	}
 
 	lock, err := cd.Lock(key...)
