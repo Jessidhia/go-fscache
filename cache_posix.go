@@ -2,10 +2,6 @@
 
 package fscache
 
-import (
-	"strings"
-)
-
 func filterDots(parts ...string) []string {
 	return parts
 }
