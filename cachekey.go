@@ -26,7 +26,7 @@ type CacheKey interface{}
 // It's a superset of the "bad characters" on other OSes, so this works.
 var badPath = regexp.MustCompile(`[\\/:\*\?\"<>\|]`)
 
-func stringify(stuff ...CacheKey) []string {
+func Stringify(stuff ...CacheKey) []string {
 	ret := make([]string, len(stuff))
 	for i := range stuff {
 		s := fmt.Sprint(stuff[i])
@@ -41,7 +41,7 @@ func stringify(stuff ...CacheKey) []string {
 // This also means that cache keys that are file-backed
 // cannot have subkeys.
 func (cd *CacheDir) cachePath(key ...CacheKey) string {
-	parts := append([]string{cd.GetCacheDir()}, stringify(key...)...)
+	parts := append([]string{cd.GetCacheDir()}, Stringify(key...)...)
 	p := filepath.Join(filterDots(parts...)...)
 	return p
 }
