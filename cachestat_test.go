@@ -95,3 +95,41 @@ func TestCache_Touch(T *testing.T) {
 		T.Errorf("Touch did not update timestamp (FAT filesystem?)")
 	}
 }
+
+func TestCache_Chtime(T *testing.T) {
+	cd, err := fscache.NewCacheDir(".testdir")
+	if err != nil {
+		T.Fatal(err)
+		return
+	}
+
+	err = cd.Touch("test", "chtime")
+	if err != nil {
+		T.Fatal(err)
+		return
+	}
+
+	stat, err := cd.Stat("test", "chtime")
+	if err != nil {
+		T.Fatal(err)
+		return
+	}
+
+	newTime := stat.ModTime().Add(-1 * 7 * 24 * time.Hour)
+
+	err = cd.Chtime(newTime, "test", "chtime")
+	if err != nil {
+		T.Fatal(err)
+		return
+	}
+
+	stat, err = cd.Stat("test", "chtime")
+	if err != nil {
+		T.Fatal(err)
+		return
+	}
+
+	if mtime := stat.ModTime(); !mtime.Equal(newTime) {
+		T.Errorf("Expected mtime %q, got mtime %q", newTime, mtime)
+	}
+}
